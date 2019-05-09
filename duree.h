@@ -16,13 +16,15 @@
  #ifndef __DUREE_H__
  #define __DUREE_H__
 
+#include "cexception.h"
+
 namespace nsUtil
 {
     typedef unsigned long long ULLong_t;
 
     class Duree
     {
-      private :
+      protected :
         ULLong_t       myDuree;
         short unsigned mySeconds;
         short unsigned myMinutes;
@@ -37,28 +39,30 @@ namespace nsUtil
         ~Duree (void);
 
         ULLong_t getDuree (void) const;
-
-        void display (void) const;
+        void setDuree(const unsigned long long& d) noexcept;
 
         Duree & operator ++ (void) noexcept; // préincrémentation de la classe CX
         Duree   operator ++ (int)  noexcept; // postincrémentation de la classe CX
 
-        Duree & operator -- (void) noexcept; // préincrémentation de la classe CX
-        Duree   operator -- (int)  noexcept; // postincrémentation de la classe CX
+        Duree & operator -- (void) throw (CException); // préincrémentation de la classe CX
+        Duree   operator -- (int)  throw (CException); // postincrémentation de la classe CX
 
-        Duree operator +  (const Duree & d) const;
-        Duree operator -  (const Duree & d) const;
+        Duree operator +  (const Duree & d) const noexcept;
+        Duree operator -  (const Duree & d) const throw (CException);
+
+        Duree operator +  (const unsigned long long & d) const noexcept;
+        Duree operator -  (const unsigned long long & d) const throw (CException);
 
         Duree & operator += (const Duree &) noexcept;
         Duree & operator += (const unsigned long long &) noexcept;
 
-        Duree & operator -= (const Duree &) noexcept;
-        Duree & operator -= (const unsigned long long &) noexcept;
+        Duree & operator -= (const Duree &) throw (CException);
+        Duree & operator -= (const unsigned long long &) throw (CException);
 
-        bool  operator >  (const Duree & d) const;
-        bool  operator <  (const Duree & d) const;
-        bool  operator != (const Duree & d) const;
-        bool  operator == (const Duree & d) const;
+        bool  operator >  (const Duree & d) const noexcept;
+        bool  operator <  (const Duree & d) const noexcept;
+        bool  operator != (const Duree & d) const noexcept;
+        bool  operator == (const Duree & d) const noexcept;
 
     }; // Duree
 
