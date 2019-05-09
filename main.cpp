@@ -62,6 +62,7 @@ namespace
         {
             ostringstream oss;
             oss << d1;
+
             assert (oss.str() == "[     0:01:01:01]");
         }
         {

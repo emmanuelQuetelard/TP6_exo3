@@ -21,11 +21,11 @@ DureeEditable::~DureeEditable()
 ostream& DureeEditable::display(ostream& os) const
 {
     return os << '['
-         << setw (10) << myDays    << ':'
+         << setw (6) << myDays    << ':'
          << setfill ('0')
-         << setw (2)  << myHours   << " heure(s)"
-         << setw (2)  << myMinutes << " minute(s)"
-         << setw (2)  << mySeconds << " seconde(s)"
+         << setw (2)  << myHours   << ":"
+         << setw (2)  << myMinutes << ":"
+         << setw (2)  << mySeconds
          << setfill (' ')
          << ']';
 }
@@ -34,9 +34,9 @@ DureeEditable & DureeEditable::operator ++ (void) noexcept
 {
    return (*this) = Duree::operator++();
 }
-DureeEditable   DureeEditable::operator ++ (int incr)  noexcept
+DureeEditable   DureeEditable::operator ++ (int)  noexcept
 {
-    return (*this) = Duree::operator++(incr);
+    return Duree::operator++(0);
 }
 
 DureeEditable & DureeEditable::operator -- (void) throw (CException)
@@ -44,9 +44,9 @@ DureeEditable & DureeEditable::operator -- (void) throw (CException)
     return (*this) = Duree::operator--();
 }
 
-DureeEditable   DureeEditable::operator -- (int decr)  throw (CException)
+DureeEditable   DureeEditable::operator -- (int)  throw (CException)
 {
-   return (*this) = Duree::operator--(decr);
+   return Duree::operator--(0);
 }
 
 DureeEditable DureeEditable::operator + (const Duree & d) const noexcept
@@ -73,22 +73,26 @@ DureeEditable DureeEditable::operator -  (const unsigned long long & d) const th
 
 DureeEditable & DureeEditable::operator += (const Duree & duree) noexcept
 {
-    return (*this) = Duree::operator+=(duree);
+    Duree::operator+=(duree);
+    return *this;
 }
 
 DureeEditable & DureeEditable::operator += (const unsigned long long & duree) noexcept
 {
-  return (*this) = Duree::operator+=(duree);
+   Duree::operator+=(duree);
+    return *this;
 }
 
 DureeEditable & DureeEditable::operator -= (const Duree & duree) throw (CException)
 {
-    return (*this) = Duree::operator-=(duree);
+    Duree::operator-=(duree);
+    return *this;
 }
 
 DureeEditable & DureeEditable::operator -= (const unsigned long long & duree) throw (CException)
 {
-    return (*this) = Duree::operator-=(duree);
+    Duree::operator-=(duree);
+    return *this;
 }
 
 }

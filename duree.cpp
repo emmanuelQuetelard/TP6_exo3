@@ -25,24 +25,19 @@ DUREE::Duree  (const ULLong_t duree /* = ULLong_t (0) */)
     : myDuree (duree)
 {
     normaliser ();
-    cout << "duree construite : ";
-    cout << endl;
-
 } // Duree()
 
 DUREE::Duree  (const Duree & duree)
     : myDuree (duree.getDuree ())
 {
     normaliser ();
-    cout << "duree construite par recopie : ";
-    cout << endl;
+
 
 } // Duree()
 
 DUREE::~Duree  (void)
 {
-    cout << "duree détruite : ";
-    cout << endl;
+
 
 } // Duree()
 
@@ -71,8 +66,8 @@ Duree & DUREE::operator ++ (void) noexcept
 }
 Duree   DUREE::operator ++ (int incr)  noexcept
 {
-    Duree duree = (*this);
-    myDuree += incr;
+    Duree duree(myDuree);
+    myDuree ++;
     normaliser();
     return duree;
 }
@@ -89,8 +84,10 @@ Duree & DUREE::operator -- (void) throw (CException)
 
 Duree   DUREE::operator -- (int decr)  throw (CException)
 {
-    Duree duree = (*this);
-    myDuree -= decr;
+    if(myDuree == 0)
+        throw CException("durée négative", 36);
+    Duree duree(myDuree);
+    myDuree--;
     normaliser();
     return duree;
 }
@@ -103,6 +100,8 @@ DUREE DUREE::operator + (const Duree & d) const noexcept
 
 DUREE DUREE::operator - (const Duree & d) const throw (CException)
 {
+    if(myDuree - d.getDuree() <= 0)
+        throw CException("durée négative", 36);
     return myDuree - (myDuree < d.myDuree ? myDuree : d.myDuree);
 
 } // operator -()
@@ -114,6 +113,8 @@ DUREE DUREE::operator +  (const unsigned long long & d) const noexcept
 
 DUREE DUREE::operator -  (const unsigned long long & d) const throw (CException)
 {
+    if(myDuree - d <= 0)
+        throw CException("durée négative", 36);
     return myDuree - (myDuree < d ? myDuree : d);
 }
 
@@ -135,6 +136,8 @@ DUREE & DUREE::operator += (const unsigned long long & duree) noexcept
 
 DUREE & DUREE::operator -= (const Duree & duree) throw (CException)
 {
+    if(duree.getDuree() > myDuree)
+        throw CException("durée négative", 36);
     myDuree -= duree.getDuree();
     normaliser();
     
@@ -143,6 +146,9 @@ DUREE & DUREE::operator -= (const Duree & duree) throw (CException)
 
 DUREE & DUREE::operator -= (const unsigned long long & duree) throw (CException)
 {
+     if(duree > myDuree)
+        throw CException("durée négative", 36);
+
     myDuree -= duree;
     normaliser();
     
